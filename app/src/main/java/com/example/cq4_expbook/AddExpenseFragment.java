@@ -23,6 +23,7 @@ public class AddExpenseFragment extends DialogFragment {
     private EditText expenseAmount;
     private EditText expenseComment;
     private onFragmentInteractionListener listener;
+    private Expense currentlyEditExpense;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -33,30 +34,56 @@ public class AddExpenseFragment extends DialogFragment {
         void onOkPressed(Expense expense);
     }
 
+    public void editExpense (Expense expense) {
+        this.currentlyEditExpense = expense;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_expense_fragment_layout, null);
+
         expenseName = view.findViewById(R.id.expense_name_edit_text);
         expenseDate = view.findViewById(R.id.expense_date_edit_text);
         expenseAmount = view.findViewById(R.id.expense_amount_edit_text);
         expenseComment = view.findViewById(R.id.expense_comment_edit_text);
 
+        if (currentlyEditExpense != null) {
+            expenseName.setText(currentlyEditExpense.getName());
+            expenseAmount.setText(currentlyEditExpense.getAmount().toString());
+            expenseDate.setText(currentlyEditExpense.getDate());
+            expenseComment.setText(currentlyEditExpense.getComment());
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Expense")
+                .setTitle("Add/Edit Expense")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String name = expenseName.getText().toString();
-                        String date = expenseDate.getText().toString();
-                        Float amount =  Float.parseFloat(expenseAmount.getText().toString());
-                        String comment = expenseComment.getText().toString();
+                        if (currentlyEditExpense != null) {
+                            // Edit Expense
+                            currentlyEditExpense.setName(expenseName.getText().toString());
+                            currentlyEditExpense.setDate(expenseDate.getText().toString());
+                            currentlyEditExpense.setAmount(Float.parseFloat(expenseAmount.getText().toString()));
+                            currentlyEditExpense.setComment(expenseComment.getText().toString());
+                        } else {
+                            // Add Expense
 
-                        // Listener
-                        listener.onOkPressed(new Expense(name, date, amount, comment));
+                            String name = expenseName.getText().toString();
+                            String date = expenseDate.getText().toString();
+                            Float amount = Float.parseFloat(expenseAmount.getText().toString());
+                            String comment = expenseComment.getText().toString();
+                            System.out.println(name);
+                            System.out.println(date);
+                            System.out.println(comment);
+                            System.out.println(amount);
+
+
+                            listener.onOkPressed(new Expense(name, date, amount, comment));
+                        }
                     }
                 }).create();
     }

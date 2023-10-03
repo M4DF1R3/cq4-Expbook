@@ -10,7 +10,9 @@
         android:ems="10"
         android:hint="Expense Name"
         android:id="@+id/expense_name_edit_text"
-        android:inputType="text"></EditText>
+        android:inputType="text">
+
+    </EditText>
 
     <EditText
         android:layout_width="match_parent"
@@ -18,7 +20,9 @@
         android:ems="10"
         android:hint="Date of Expense"
         android:id="@+id/expense_date_edit_text"
-        android:inputType="date"></EditText>
+        android:inputType="text">
+
+    </EditText>
 
     <EditText
         android:layout_width="match_parent"
@@ -26,7 +30,9 @@
         android:ems="10"
         android:hint="Expense Amount"
         android:id="@+id/expense_amount_edit_text"
-        android:inputType="numberDecimal"></EditText>
+        android:inputType="numberDecimal">
+
+    </EditText>
 
 
     <EditText
@@ -35,6 +41,8 @@
         android:ems="10"
         android:hint="Expense Comment"
         android:id="@+id/expense_comment_edit_text"
-        android:inputType="text"></EditText>
+        android:inputType="text">
+
+    </EditText>
 
 </LinearLayout>
